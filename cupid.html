@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>우리 서로 좋아하는 걸까?</title>
+  <style>
+    body {
+      background-color: #ffe4e1;
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+    h1, h2 {
+      color: #ff69b4;
+    }
+    .hidden { display: none; }
+    input {
+      padding: 10px;
+      border: 2px solid #ffb6c1;
+      border-radius: 20px;
+      width: 200px;
+      font-size: 16px;
+    }
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 20px;
+      background-color: #ff69b4;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover { background-color: #ff85c1; }
+    .share-btn {
+      background-color: #ffa07a;
+      margin: 5px;
+    }
+    .share-btn:hover { background-color: #ff8c69; }
+  </style>
+</head>
+<body>
+  <div id="intro">
+    <h1>💕 우리 서로 좋아하는 걸까? 💕</h1>
+    <button onclick="nextStep('school')">시작하기</button>
+  </div>
+
+  <div id="school" class="hidden">
+    <h2>당신의 학교를 입력하세요</h2>
+    <input type="text" id="schoolInput" placeholder="예: 연세대학교" oninput="checkSchool()">
+    <div id="schoolDetected"></div>
+    <button onclick="submitSchool()">다음</button>
+  </div>
+
+  <div id="crush" class="hidden">
+    <h2>좋아하는 사람 이름은?</h2>
+    <input type="text" id="crushInput" placeholder="예: 지민">
+    <button onclick="submitCrush()">다음</button>
+  </div>
+
+  <div id="username" class="hidden">
+    <h2>당신의 이름은?</h2>
+    <input type="text" id="usernameInput" placeholder="예: 재민">
+    <button onclick="submitUser()">두근두근 확인!</button>
+  </div>
+
+  <div id="loading" class="hidden">
+    <h2 style="animation: pulse 1s infinite;">❤️ 두근두근... 확인 중 ❤️</h2>
+  </div>
+
+  <div id="result" class="hidden">
+    <h2 id="resultText"></h2>
+    <button class="share-btn" onclick="share('인스타그램')">인스타그램 공유</button>
+    <button class="share-btn" onclick="share('카카오톡')">카카오톡 공유</button>
+    <button class="share-btn" onclick="share('페이스북')">페이스북 공유</button>
+    <br>
+    <button onclick="reset()">다시하기</button>
+  </div>
+
+  <script>
+    const schoolTypes = ['초등학교', '중학교', '고등학교', '대학교'];
+    let detectedSchool = '';
+
+    function nextStep(step) {
+      document.querySelectorAll('div').forEach(div => div.classList.add('hidden'));
+      document.getElementById(step).classList.remove('hidden');
+    }
+
+    function checkSchool() {
+      const input = document.getElementById('schoolInput').value;
+      detectedSchool = schoolTypes.find(type => input.includes(type)) || '';
+      document.getElementById('schoolDetected').innerText = detectedSchool ? `→ ${detectedSchool} 인식됨!` : '';
+    }
+
+    function submitSchool() {
+      if (!detectedSchool) {
+        alert('학교 종류를 포함해주세요! (예: 연세대학교)');
+      } else {
+        nextStep('crush');
+      }
+    }
+
+    function submitCrush() {
+      const crush = document.getElementById('crushInput').value.trim();
+      if (!crush) {
+        alert('좋아하는 사람 이름을 입력해주세요!');
+      } else {
+        nextStep('username');
+      }
+    }
+
+    function submitUser() {
+      const user = document.getElementById('usernameInput').value.trim();
+      if (!user) {
+        alert('당신의 이름을 입력해주세요!');
+      } else {
+        nextStep('loading');
+        setTimeout(showResult, 2000); // 2초 후 결과
+      }
+    }
+
+    function showResult() {
+      const crush = document.getElementById('crushInput').value;
+      const isMatch = Math.random() < 0.5; // 랜덤
+      const resultText = isMatch
+        ? `🎉 ${crush}님도 당신을 좋아했어요! 🎉`
+        : `😢 아직 ${crush}님의 마음은 몰라요...`;
+      document.getElementById('resultText').innerText = resultText;
+      nextStep('result');
+    }
+
+    function share(platform) {
+      alert(`${platform} 공유 링크로 연결됩니다 (예시)`);
+      // 실제 공유 링크 연결 시 여기에 window.open(url) 추가
+    }
+
+    function reset() {
+      document.getElementById('schoolInput').value = '';
+      document.getElementById('crushInput').value = '';
+      document.getElementById('usernameInput').value = '';
+      document.getElementById('schoolDetected').innerText = '';
+      nextStep('intro');
+    }
+  </script>
+
+  <style>
+    @keyframes pulse {
+      0% { opacity: 1; }
+      50% { opacity: 0.5; }
+      100% { opacity: 1; }
+    }
+  </style>
+</body>
+</html>
