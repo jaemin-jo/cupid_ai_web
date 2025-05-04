@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>우리 서로 좋아하는 걸까?</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #ffd6e0, #ffe4e1);
+      font-family: 'Poppins', sans-serif;
+      color: #ff4f81;
+      text-align: center;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+    body::before {
+      content: '❤️ 💕 💖';
+      position: absolute;
+      font-size: 5rem;
+      opacity: 0.05;
+      animation: float 10s infinite linear;
+      left: 10%;
+      top: 20%;
+    }
+    h1 {
+      font-family: 'Dancing Script', cursive;
+      font-size: 3rem;
+      color: #ff4f81;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+      animation: fadeIn 1s ease-out;
+    }
+    h2 {
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+      color: #ff69b4;
+      animation: fadeInUp 1s ease-out;
+    }
+    input {
+      padding: 12px;
+      border: 2px solid transparent;
+      border-radius: 30px;
+      width: 220px;
+      font-size: 16px;
+      outline: none;
+      box-shadow: 0 4px 10px rgba(255, 105, 180, 0.3);
+      transition: all 0.3s ease;
+    }
+    input:focus {
+      border: 2px solid #ff85c1;
+      box-shadow: 0 0 15px #ffb6c1;
+    }
+    button {
+      margin-top: 15px;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 30px;
+      background: linear-gradient(45deg, #ff69b4, #ff85c1);
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(255, 105, 180, 0.4);
+      transition: all 0.3s ease;
+    }
+    button:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 8px 20px rgba(255, 105, 180, 0.5);
+    }
+    .share-btn {
+      background: linear-gradient(45deg, #ffa07a, #ff8c69);
+      margin: 8px;
+    }
+    .share-btn:hover {
+      background: linear-gradient(45deg, #ff8c69, #ff6347);
+    }
+    .hidden { display: none; }
+    #schoolDetected {
+      margin-top: 5px;
+      font-size: 0.9rem;
+      color: #ff4f81;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.1); opacity: 0.7; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+    @keyframes float {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+      100% { transform: translateY(0); }
+    }
+    #loading h2 {
+      animation: pulse 1s infinite;
+      font-size: 2.5rem;
+    }
+  </style>
+</head>
+<body>
+  <div id="intro">
+    <h1>💕 우리 서로 좋아하는 걸까? 💕</h1>
+    <button onclick="nextStep('school')">시작하기</button>
+  </div>
+
+  <div id="school" class="hidden">
+    <h2>당신의 학교를 입력하세요</h2>
+    <input type="text" id="schoolInput" placeholder="예: 연세대학교" oninput="checkSchool()">
+    <div id="schoolDetected"></div>
+    <button onclick="submitSchool()">다음</button>
+  </div>
+
+  <div id="crush" class="hidden">
+    <h2>좋아하는 사람 이름은?</h2>
+    <input type="text" id="crushInput" placeholder="예: 지민">
+    <button onclick="submitCrush()">다음</button>
+  </div>
+
+  <div id="username" class="hidden">
+    <h2>당신의 이름은?</h2>
+    <input type="text" id="usernameInput" placeholder="예: 재민">
+    <button onclick="submitUser()">두근두근 확인!</button>
+  </div>
+
+  <div id="loading" class="hidden">
+    <h2>❤️ 두근두근... 확인 중 ❤️</h2>
+  </div>
+
+  <div id="result" class="hidden">
+    <h2 id="resultText"></h2>
+    <button class="share-btn" onclick="share('인스타그램')">인스타그램 공유</button>
+    <button class="share-btn" onclick="share('카카오톡')">카카오톡 공유</button>
+    <button class="share-btn" onclick="share('페이스북')">페이스북 공유</button>
+    <br>
+    <button onclick="reset()">다시하기</button>
+  </div>
+
+  <script>
+    const schoolTypes = ['초등학교', '중학교', '고등학교', '대학교'];
+    let detectedSchool = '';
+
+    function nextStep(step) {
+      document.querySelectorAll('div').forEach(div => div.classList.add('hidden'));
+      document.getElementById(step).classList.remove('hidden');
+    }
+
+    function checkSchool() {
+      const input = document.getElementById('schoolInput').value;
+      detectedSchool = schoolTypes.find(type => input.includes(type)) || '';
+      document.getElementById('schoolDetected').innerText = detectedSchool ? `→ ${detectedSchool} 인식됨!` : '';
+    }
+
+    function submitSchool() {
+      if (!detectedSchool) {
+        alert('학교 종류를 포함해주세요! (예: 연세대학교)');
+      } else {
+        nextStep('crush');
+      }
+    }
+
+    function submitCrush() {
+      const crush = document.getElementById('crushInput').value.trim();
+      if (!crush) {
+        alert('좋아하는 사람 이름을 입력해주세요!');
+      } else {
+        nextStep('username');
+      }
+    }
+
+    function submitUser() {
+      const user = document.getElementById('usernameInput').value.trim();
+      if (!user) {
+        alert('당신의 이름을 입력해주세요!');
+      } else {
+        nextStep('loading');
+        setTimeout(showResult, 2000);
+      }
+    }
+
+    function showResult() {
+      const crush = document.getElementById('crushInput').value;
+      const isMatch = Math.random() < 0.5;
+      const resultText = isMatch
+        ? `🎉 ${crush}님도 당신을 좋아했어요! 🎉`
+        : `😢 아직 ${crush}님의 마음은 몰라요...`;
+      document.getElementById('resultText').innerText = resultText;
+      nextStep('result');
+    }
+
+    function share(platform) {
+      alert(`${platform} 공유 링크로 연결됩니다 (예시)`);
+    }
+
+    function reset() {
+      document.getElementById('schoolInput').value = '';
+      document.getElementById('crushInput').value = '';
+      document.getElementById('usernameInput').value = '';
+      document.getElementById('schoolDetected').innerText = '';
+      nextStep('intro');
+    }
+  </script>
+</body>
+</html>
