@@ -4,108 +4,84 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>우리 서로 좋아하는 걸까?</title>
-  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
       padding: 0;
-      background: linear-gradient(135deg, #ffd6e0, #ffe4e1);
-      font-family: 'Poppins', sans-serif;
-      color: #ff4f81;
+      background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+      font-family: 'Montserrat', sans-serif;
+      color: #fff;
       text-align: center;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
+      align-items: center;
       overflow: hidden;
       position: relative;
     }
-    body::before {
-      content: '❤️ 💕 💖';
-      position: absolute;
-      font-size: 5rem;
-      opacity: 0.05;
-      animation: float 10s infinite linear;
-      left: 10%;
-      top: 20%;
-    }
     h1 {
-      font-family: 'Dancing Script', cursive;
-      font-size: 3rem;
-      color: #ff4f81;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-      animation: fadeIn 1s ease-out;
+      font-size: 3.2rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      letter-spacing: 1px;
+      text-shadow: 2px 2px 10px rgba(0,0,0,0.2);
     }
     h2 {
       font-size: 1.8rem;
-      margin-bottom: 10px;
-      color: #ff69b4;
-      animation: fadeInUp 1s ease-out;
+      font-weight: 500;
+      margin-bottom: 15px;
     }
     input {
-      padding: 12px;
-      border: 2px solid transparent;
-      border-radius: 30px;
-      width: 220px;
-      font-size: 16px;
+      padding: 16px;
+      border: none;
+      border-radius: 8px;
+      width: 280px;
+      font-size: 1rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
       outline: none;
-      box-shadow: 0 4px 10px rgba(255, 105, 180, 0.3);
-      transition: all 0.3s ease;
+      transition: box-shadow 0.3s ease;
     }
     input:focus {
-      border: 2px solid #ff85c1;
-      box-shadow: 0 0 15px #ffb6c1;
+      box-shadow: 0 4px 30px rgba(0,0,0,0.2);
     }
     button {
-      margin-top: 15px;
-      padding: 12px 24px;
+      margin-top: 20px;
+      padding: 16px 36px;
       border: none;
-      border-radius: 30px;
-      background: linear-gradient(45deg, #ff69b4, #ff85c1);
+      border-radius: 8px;
+      background: linear-gradient(90deg, #ff4e50, #f9d423);
       color: white;
-      font-size: 16px;
+      font-size: 1rem;
+      font-weight: 600;
       cursor: pointer;
-      box-shadow: 0 4px 12px rgba(255, 105, 180, 0.4);
-      transition: all 0.3s ease;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+      transition: transform 0.2s, box-shadow 0.2s;
     }
     button:hover {
-      transform: translateY(-3px) scale(1.05);
-      box-shadow: 0 8px 20px rgba(255, 105, 180, 0.5);
+      transform: translateY(-4px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
     }
     .share-btn {
-      background: linear-gradient(45deg, #ffa07a, #ff8c69);
-      margin: 8px;
+      background: linear-gradient(90deg, #a18cd1, #fbc2eb);
+      margin: 10px;
     }
     .share-btn:hover {
-      background: linear-gradient(45deg, #ff8c69, #ff6347);
+      background: linear-gradient(90deg, #fbc2eb, #a18cd1);
     }
     .hidden { display: none; }
     #schoolDetected {
-      margin-top: 5px;
+      margin-top: 8px;
       font-size: 0.9rem;
-      color: #ff4f81;
+      color: #fff8;
     }
-    @keyframes pulse {
-      0% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.1); opacity: 0.7; }
-      100% { transform: scale(1); opacity: 1; }
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-20px);}
-      to { opacity: 1; transform: translateY(0);}
-    }
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(20px);}
-      to { opacity: 1; transform: translateY(0);}
-    }
-    @keyframes float {
-      0% { transform: translateY(0); }
-      50% { transform: translateY(-20px); }
-      100% { transform: translateY(0); }
-    }
-    #loading h2 {
-      animation: pulse 1s infinite;
-      font-size: 2.5rem;
+    .desc {
+      font-size: 0.95rem;
+      margin-top: 15px;
+      color: #fff9;
+      line-height: 1.5;
+      white-space: pre-line;
     }
   </style>
 </head>
@@ -117,7 +93,21 @@
 
   <div id="school" class="hidden">
     <h2>당신의 학교를 입력하세요</h2>
-    <input type="text" id="schoolInput" placeholder="예: 연세대학교" oninput="checkSchool()">
+    <input list="schoolList" type="text" id="schoolInput" placeholder="예: 연세대학교" oninput="checkSchool()">
+    <datalist id="schoolList">
+      <option value="서울대학교"><option value="연세대학교"><option value="고려대학교"><option value="한양대학교">
+      <option value="성균관대학교"><option value="경희대학교"><option value="중앙대학교"><option value="한국외국어대학교">
+      <option value="서울시립대학교"><option value="건국대학교"><option value="홍익대학교"><option value="동국대학교">
+      <option value="숙명여자대학교"><option value="이화여자대학교"><option value="숭실대학교"><option value="명지대학교">
+      <option value="단국대학교"><option value="서강대학교"><option value="아주대학교"><option value="국민대학교">
+      <option value="세종대학교"><option value="광운대학교"><option value="가천대학교"><option value="인하대학교">
+      <option value="대구대학교"><option value="부산대학교"><option value="전남대학교"><option value="충남대학교">
+      <option value="울산대학교"><option value="조선대학교"><option value="전북대학교"><option value="제주대학교">
+      <option value="경북대학교"><option value="한림대학교"><option value="강원대학교"><option value="동아대학교">
+      <option value="계명대학교"><option value="한성대학교"><option value="서울과학기술대학교"><option value="서울여자대학교">
+      <option value="한국항공대학교"><option value="한국교통대학교"><option value="한국체육대학교"><option value="한국예술종합학교">
+      <option value="한국산업기술대학교"><option value="포항공과대학교"><option value="KAIST"><option value="GIST">
+    </datalist>
     <div id="schoolDetected"></div>
     <button onclick="submitSchool()">다음</button>
   </div>
@@ -140,6 +130,7 @@
 
   <div id="result" class="hidden">
     <h2 id="resultText"></h2>
+    <div class="desc" id="extraInfo"></div>
     <button class="share-btn" onclick="share('인스타그램')">인스타그램 공유</button>
     <button class="share-btn" onclick="share('카카오톡')">카카오톡 공유</button>
     <button class="share-btn" onclick="share('페이스북')">페이스북 공유</button>
@@ -148,8 +139,9 @@
   </div>
 
   <script>
-    const schoolTypes = ['초등학교', '중학교', '고등학교', '대학교'];
+    const schoolTypes = ['대학교', '고등학교', '중학교', '초등학교'];
     let detectedSchool = '';
+    let selectedSchool = '';
 
     function nextStep(step) {
       document.querySelectorAll('div').forEach(div => div.classList.add('hidden'));
@@ -159,6 +151,7 @@
     function checkSchool() {
       const input = document.getElementById('schoolInput').value;
       detectedSchool = schoolTypes.find(type => input.includes(type)) || '';
+      selectedSchool = input;
       document.getElementById('schoolDetected').innerText = detectedSchool ? `→ ${detectedSchool} 인식됨!` : '';
     }
 
@@ -192,10 +185,23 @@
     function showResult() {
       const crush = document.getElementById('crushInput').value;
       const isMatch = Math.random() < 0.5;
+      const currentTime = new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' });
+      const randomRank = Math.floor(Math.random() * 50) + 1;
+
       const resultText = isMatch
         ? `🎉 ${crush}님도 당신을 좋아했어요! 🎉`
         : `😢 아직 ${crush}님의 마음은 몰라요...`;
+
+      let extraInfo = '';
+      if (isMatch) {
+        extraInfo = `${selectedSchool}에서 ${randomRank}번째 상호매칭 성공!\n` +
+                    `이 사람이 당신을 선택한 시간: ${currentTime}`;
+      } else {
+        extraInfo = `이 사람은 아직 당신을 선택하지 않았습니다.\n마음을 기다려보세요!`;
+      }
+
       document.getElementById('resultText').innerText = resultText;
+      document.getElementById('extraInfo').innerText = extraInfo;
       nextStep('result');
     }
 
