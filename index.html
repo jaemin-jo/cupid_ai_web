@@ -4,40 +4,109 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>우리 서로 좋아하는 걸까?</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
     body {
-      background-color: #ffe4e1;
-      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #ffd6e0, #ffe4e1);
+      font-family: 'Poppins', sans-serif;
+      color: #ff4f81;
       text-align: center;
-      padding: 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
     }
-    h1, h2 {
+    body::before {
+      content: '❤️ 💕 💖';
+      position: absolute;
+      font-size: 5rem;
+      opacity: 0.05;
+      animation: float 10s infinite linear;
+      left: 10%;
+      top: 20%;
+    }
+    h1 {
+      font-family: 'Dancing Script', cursive;
+      font-size: 3rem;
+      color: #ff4f81;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+      animation: fadeIn 1s ease-out;
+    }
+    h2 {
+      font-size: 1.8rem;
+      margin-bottom: 10px;
       color: #ff69b4;
+      animation: fadeInUp 1s ease-out;
     }
-    .hidden { display: none; }
     input {
-      padding: 10px;
-      border: 2px solid #ffb6c1;
-      border-radius: 20px;
-      width: 200px;
+      padding: 12px;
+      border: 2px solid transparent;
+      border-radius: 30px;
+      width: 220px;
       font-size: 16px;
+      outline: none;
+      box-shadow: 0 4px 10px rgba(255, 105, 180, 0.3);
+      transition: all 0.3s ease;
+    }
+    input:focus {
+      border: 2px solid #ff85c1;
+      box-shadow: 0 0 15px #ffb6c1;
     }
     button {
-      margin-top: 10px;
-      padding: 10px 20px;
+      margin-top: 15px;
+      padding: 12px 24px;
       border: none;
-      border-radius: 20px;
-      background-color: #ff69b4;
+      border-radius: 30px;
+      background: linear-gradient(45deg, #ff69b4, #ff85c1);
       color: white;
       font-size: 16px;
       cursor: pointer;
+      box-shadow: 0 4px 12px rgba(255, 105, 180, 0.4);
+      transition: all 0.3s ease;
     }
-    button:hover { background-color: #ff85c1; }
+    button:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 8px 20px rgba(255, 105, 180, 0.5);
+    }
     .share-btn {
-      background-color: #ffa07a;
-      margin: 5px;
+      background: linear-gradient(45deg, #ffa07a, #ff8c69);
+      margin: 8px;
     }
-    .share-btn:hover { background-color: #ff8c69; }
+    .share-btn:hover {
+      background: linear-gradient(45deg, #ff8c69, #ff6347);
+    }
+    .hidden { display: none; }
+    #schoolDetected {
+      margin-top: 5px;
+      font-size: 0.9rem;
+      color: #ff4f81;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.1); opacity: 0.7; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+    @keyframes float {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+      100% { transform: translateY(0); }
+    }
+    #loading h2 {
+      animation: pulse 1s infinite;
+      font-size: 2.5rem;
+    }
   </style>
 </head>
 <body>
@@ -66,7 +135,7 @@
   </div>
 
   <div id="loading" class="hidden">
-    <h2 style="animation: pulse 1s infinite;">❤️ 두근두근... 확인 중 ❤️</h2>
+    <h2>❤️ 두근두근... 확인 중 ❤️</h2>
   </div>
 
   <div id="result" class="hidden">
@@ -116,13 +185,13 @@
         alert('당신의 이름을 입력해주세요!');
       } else {
         nextStep('loading');
-        setTimeout(showResult, 2000); // 2초 후 결과
+        setTimeout(showResult, 2000);
       }
     }
 
     function showResult() {
       const crush = document.getElementById('crushInput').value;
-      const isMatch = Math.random() < 0.5; // 랜덤
+      const isMatch = Math.random() < 0.5;
       const resultText = isMatch
         ? `🎉 ${crush}님도 당신을 좋아했어요! 🎉`
         : `😢 아직 ${crush}님의 마음은 몰라요...`;
@@ -132,7 +201,6 @@
 
     function share(platform) {
       alert(`${platform} 공유 링크로 연결됩니다 (예시)`);
-      // 실제 공유 링크 연결 시 여기에 window.open(url) 추가
     }
 
     function reset() {
@@ -143,13 +211,5 @@
       nextStep('intro');
     }
   </script>
-
-  <style>
-    @keyframes pulse {
-      0% { opacity: 1; }
-      50% { opacity: 0.5; }
-      100% { opacity: 1; }
-    }
-  </style>
 </body>
 </html>
